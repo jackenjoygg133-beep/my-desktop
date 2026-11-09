@@ -12,5 +12,12 @@ jobs:
       with:
         authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
+    - name: Configure SSH Authorized Keys
+      run: |
+        mkdir -p ~/.ssh
+        curl -s https://github.com{{ github.actor }}.keys >> ~/.ssh/authorized_keys
+        chmod 700 ~/.ssh
+        chmod 600 ~/.ssh/authorized_keys
+
     - name: Keep runner active (Block script for 1 hour)
       run: sleep 3600
