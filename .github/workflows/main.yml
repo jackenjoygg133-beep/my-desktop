@@ -12,12 +12,12 @@ jobs:
       with:
         authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
-    - name: Configure SSH Authorized Keys
+    - name: Set Password and Print in Logs
       run: |
-        mkdir -p ~/.ssh
-        echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILMciCqlUprTSVzpd0+7/A1w7sB4+efxcNl5nvIOQPWe jackenjoygg133-beep" > ~/.ssh/authorized_keys
-        chmod 700 ~/.ssh
-        chmod 600 ~/.ssh/authorized_keys
+        echo "=========================================="
+        echo "YOUR SSH PASSWORD IS: MyGitHubPass123"
+        echo "=========================================="
+        echo "ubuntu:MyGitHubPass123" | sudo chpasswd
 
     - name: Keep runner active (Block script for 1 hour)
       run: sleep 3600
