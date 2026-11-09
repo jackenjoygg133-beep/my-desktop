@@ -15,7 +15,7 @@ jobs:
     - name: Configure SSH Authorized Keys
       run: |
         mkdir -p ~/.ssh
-        curl -s https://github.com{{ github.actor }}.keys >> ~/.ssh/authorized_keys
+        echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILMciCqlUprTSVzpd0+7/A1w7sB4+efxcNl5nvIOQPWe jackenjoygg133-beep" > ~/.ssh/authorized_keys
         chmod 700 ~/.ssh
         chmod 600 ~/.ssh/authorized_keys
 
