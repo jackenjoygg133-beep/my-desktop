@@ -1,4 +1,4 @@
-name: Linux Ubuntu - Connexion SSH via Tailscale
+name: Linux Ubuntu - SSH Connection via Tailscale
 
 on:
   workflow_dispatch:
@@ -7,22 +7,19 @@ jobs:
   ssh-access:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout du code
+    - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Installation et Connexion Tailscale Manuelle
+    - name: Manual Tailscale Installation and Connection
       run: |
-        # 1. Installation officielle de Tailscale en une ligne
         curl -fsSL https://tailscale.com | sh
-        
-        # 2. Démarrage et connexion à votre compte avec Tailscale SSH activé
         sudo tailscale up --authkey=${{ secrets.TAILSCALE_AUTHKEY }} --ssh
       shell: bash
 
-    - name: Garder le runner actif (Bloquer le script pendant 1 heure)
+    - name: Keep runner active (Block script for 1 hour)
       run: |
         echo "=========================================================="
-        echo "Le runner Ubuntu est enfin prêt et connecté !"
+        echo "The Ubuntu runner is finally ready and connected!"
         echo "=========================================================="
         sleep 3600
       shell: bash
