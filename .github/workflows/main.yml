@@ -1,11 +1,11 @@
-name: Windows - Connexion SSH via Tailscale
+name: Linux Ubuntu - Connexion SSH via Tailscale
 
 on:
   workflow_dispatch:
 
 jobs:
   ssh-access:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest # On passe sous Linux pour que Tailscale fonctionne du premier coup !
     steps:
     - name: Checkout du code
       uses: actions/checkout@v4
@@ -14,21 +14,13 @@ jobs:
       uses: tailscale/github-action@v2
       with:
         authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-
-    - name: Installer et Activer le Serveur OpenSSH Windows
-      run: |
-        Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0 -ErrorAction SilentlyContinue
-        Start-Service sshd
-        Set-Service -Name sshd -StartupType 'Automatic'
-        New-NetFirewallRule -Name "SSH" -DisplayName "Allow SSH" -Description "Allow SSH" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort 22
-      shell: powershell
+        ssh: true # Active automatiquement Tailscale SSH (pas besoin de configurer OpenSSH à la main !)
 
     - name: Garder le runner actif (Bloquer le script pendant 1 heure)
       run: |
-        Write-Host "=========================================================="
-        Write-Host "Le runner Windows est prêt pour la connexion SSH !"
-        Write-Host "1. Récupérez la nouvelle IP dans votre application Tailscale."
-        Write-Host "2. Connectez-vous avec : ssh runneradmin@VOTRE_NOUVELLE_IP"
-        Write-Host "=========================================================="
-        Start-Sleep -Seconds 3600
-      shell: powershell
+        echo "=========================================================="
+        echo "Le runner Ubuntu est prêt pour la connexion SSH !"
+        echo "1. Récupérez la nouvelle IP dans votre application Tailscale."
+        echo "2. Connectez-vous depuis votre PowerShell avec : ssh runner@VOTRE_NOUVELLE_IP"
+        echo "=========================================================="
+        sleep 3600
