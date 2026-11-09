@@ -10,16 +10,19 @@ jobs:
     - name: Checkout du code
       uses: actions/checkout@v4
 
-    - name: Connexion et configuration Tailscale
-      uses: tailscale/github-action@v2
-      with:
-        authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-        tailscaled-args: --ssh # Version corrigée pour activer Tailscale SSH !
+    - name: Installation et Connexion Tailscale Manuelle
+      run: |
+        # 1. Installation officielle de Tailscale en une ligne
+        curl -fsSL https://tailscale.com | sh
+        
+        # 2. Démarrage et connexion à votre compte avec Tailscale SSH activé
+        sudo tailscale up --authkey=${{ secrets.TAILSCALE_AUTHKEY }} --ssh
+      shell: bash
 
     - name: Garder le runner actif (Bloquer le script pendant 1 heure)
       run: |
         echo "=========================================================="
-        echo "Le runner Ubuntu est prêt pour la connexion SSH !"
+        echo "Le runner Ubuntu est enfin prêt et connecté !"
         echo "=========================================================="
         sleep 3600
-
+      shell: bash
