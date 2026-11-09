@@ -5,7 +5,7 @@ on:
 
 jobs:
   ssh-access:
-    runs-on: ubuntu-latest # On passe sous Linux pour que Tailscale fonctionne du premier coup !
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout du code
       uses: actions/checkout@v4
@@ -14,13 +14,12 @@ jobs:
       uses: tailscale/github-action@v2
       with:
         authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-        ssh: true # Active automatiquement Tailscale SSH (pas besoin de configurer OpenSSH à la main !)
+        tailscaled-args: --ssh # Version corrigée pour activer Tailscale SSH !
 
     - name: Garder le runner actif (Bloquer le script pendant 1 heure)
       run: |
         echo "=========================================================="
         echo "Le runner Ubuntu est prêt pour la connexion SSH !"
-        echo "1. Récupérez la nouvelle IP dans votre application Tailscale."
-        echo "2. Connectez-vous depuis votre PowerShell avec : ssh runner@VOTRE_NOUVELLE_IP"
         echo "=========================================================="
         sleep 3600
+
