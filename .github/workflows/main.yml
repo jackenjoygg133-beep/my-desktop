@@ -7,16 +7,10 @@ jobs:
   ssh-access:
     runs-on: ubuntu-latest
     steps:
-    - name: Manual Tailscale Installation and Connection
-      run: |
-        curl -fsSL https://tailscale.com | sh
-        sudo tailscale up --authkey=${{ secrets.TAILSCALE_AUTHKEY }} --ssh
-      shell: bash
+    - name: Tailscale Connection
+      uses: tailscale/github-action@v2
+      with:
+        authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
     - name: Keep runner active (Block script for 1 hour)
-      run: |
-        echo "=========================================================="
-        echo "The Ubuntu runner is finally ready and connected!"
-        echo "=========================================================="
-        sleep 3600
-      shell: bash
+      run: sleep 3600
